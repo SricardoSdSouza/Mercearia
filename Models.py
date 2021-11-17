@@ -26,9 +26,9 @@ class Venda:
         self.data = data
         
 class Fornecedor:
-    def __init__(self, nome, cnpf, telefone, categoria):
+    def __init__(self, nome, cnpj, telefone, categoria):
         self.nome = nome
-        self.cnpf = cnpj
+        self.cnpj = cnpj
         self.telefone = telefone
         self.categoria = categoria
         

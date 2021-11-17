@@ -85,18 +85,18 @@ class ControllerEstoque:
                 print('Produto cadastrado com sucesso !!!')
             else:
                 print('Produto já existe em estoque')
-
-        #print('Não existe a Categoria selecionada :( ')
+        else:
+            print('Não existe a Categoria selecionada :( ')
 
 
 
 
 a = ControllerEstoque()
-a.cadastrarProduto('couve', 'R$1,0', 'Verduras', 15)
+#a.cadastrarProduto('couve', 'R$1,0', 'Verduras', 15)
 #a = ControllerCategoria()
 #a.removerCategoria('Frutas')
 #a.alteraCategoria('Frios', 'Congelados')
-#a.cadastraCategoria('Frios')
+#a.cadastraCategoria('Congelados')
 #a.mostrarCategoria()
 #Frutas
 #Verduras
