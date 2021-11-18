@@ -139,7 +139,7 @@ class ControllerEstoque:
         if len(estoque) == 0:
             print('Estoque esta vazio :( ')
         else:
-            print('==========================Produto==========================')
+            print('==========================Produtos==========================')
             for i in estoque:
                 print(f"Nome: {i.produto.nome}\n"
                       f"Preco: {i.produto.preco}\n"
