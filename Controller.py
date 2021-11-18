@@ -46,7 +46,7 @@ class ControllerCategoria:
             cat1 = list(filter(lambda x: x.categoria == categoriaAlterada, x))
             if len(cat1) == 0:
                 #usando  MAP
-                x = list(map(lambda x: Categoria(categoriaAlterada)if(x.categoria == categoriaAlterar)else(x), x))
+                x = list(map(lambda x: Categoria(categoriaAlterada)if(x.categoria == categoriaAlterar) else(x), x))
                 print('Troca realizada!!')
                 # todo: alterar categoria tambem do estoque
 
@@ -88,15 +88,61 @@ class ControllerEstoque:
         else:
             print('Não existe a Categoria selecionada :( ')
 
+    def removeProduto(self, nome):
+        x = DaoEstoque.ler()
+        est = list(filter(lambda x: x.produto.nome == nome, x))
+        if len(est) > 0:
+            for i in range(len(x)):
+                if x[i].produto.nome == nome:
+                    del x[i]
+                    break
+            print('Produto Removido com sucesso :) !!')
+        else:
+            print('O produto a que deseja remover não existe :( !!')
+
+        with open('estoque.txt', 'w') as arq:
+            for i in x:
+                arq.writelines(i.produto.nome + "|" + i.produto.preco + "|" +
+                               i.produto.categoria + "|" + str(i.quantidade))
+                arq.writelines('\n')
+
+    def alterarProduto(self, nomeAlterar, novoNome, novoPreco, novaCategoria, novaQuantidade):
+        x = DaoEstoque.ler()
+        y = DaoCategoria.ler()
+        # verificar se a categoria existe
+        h = list(filter(lambda x: x.categoria == novaCategoria, y))
+        if len(h) > 0:
+            # verificar se o produto que quero alterar existe
+            est = list(filter(lambda x: x.produto.nome == nomeAlterar, x))
+            #verificar se a variavel est é maior que zero o produto ja existe posso alterar se for menor o produto não existe
+            if len(est) > 0:
+                # verificar se o nome para o qual desejo alterar ja existe no arquivo para não ser duplicado
+                est = list(filter(lambda x: x.produto.nome == novoNome, x))
+                if len(est) == 0:
+                    x = list(map(lambda x: Estoque(Produtos(novoNome, novoPreco, novaCategoria), novaQuantidade) if(x.produto.nome == nomeAlterar) else(x), x))
+                    print('Produto alterado com sucesso :) !!')
+                else:
+                    print('Produto já cadastrado !!!')
+            else:
+                print('O Produto que deseja alterar não existe :( !!')
+
+            with open('estoque.txt', 'w') as arq:
+                for i in x:
+                    arq.writelines(i.produto.nome + "|" + i.produto.preco + "|" +
+                                   i.produto.categoria + "|" + str(i.quantidade))
+                    arq.writelines('\n')
+        else:
+            print('A categoria informada não existe :( !!')
 
 
-
-a = ControllerEstoque()
-#a.cadastrarProduto('couve', 'R$1,0', 'Verduras', 15)
+#a = ControllerEstoque()
+#a.alterarProduto('couve','repolho','R$2,0','Verduras',20)
+#a.removeProduto('abacate')
+#a.cadastrarProduto('cenoura', 'R$,50', 'Legumes', 10)
 #a = ControllerCategoria()
 #a.removerCategoria('Frutas')
 #a.alteraCategoria('Frios', 'Congelados')
-#a.cadastraCategoria('Congelados')
+#a.cadastraCategoria('Frutas')
 #a.mostrarCategoria()
 #Frutas
 #Verduras
