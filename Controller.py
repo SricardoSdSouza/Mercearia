@@ -118,7 +118,7 @@ class ControllerEstoque:
             if len(est) > 0:
                 # verificar se o nome para o qual desejo alterar ja existe no arquivo para não ser duplicado
                 est = list(filter(lambda x: x.produto.nome == novoNome, x))
-                if len(est) == 0:
+                if len(est) == 0 or nomeAlterar == novoNome:
                     x = list(map(lambda x: Estoque(Produtos(novoNome, novoPreco, novaCategoria), novaQuantidade) if(x.produto.nome == nomeAlterar) else(x), x))
                     print('Produto alterado com sucesso :) !!')
                 else:
@@ -147,12 +147,70 @@ class ControllerEstoque:
                       f"Quantidade: {i.quantidade}")
                 print('------------------------------------------------------------')
 
+class ControllerVenda:
+    def cadastrarVenda(self, nomeProduto, vendedor, comprador, quantidadeVendida):
+        '''
+        return 1 = O produto selecionado não existe !!
+        return 2 = A Quantidade insuficiente em estoque :( !!
+        return 3 = Venda realizada com sucesso
+        :param nomeProduto:
+        :param vendedor:
+        :param comprador:
+        :param quantidadeVendida:
+        :return:
+        '''
+        # ler o estoque para saber se o produto a ser vendido existe em estoque
+        x = DaoEstoque.ler()
+        temp = []
+        # verificar se a quantidade a ser vendida existe em estoque e se o produto tb existe
+        existe = False # esta variável somente fala se existe ou não o produto em estoque
+        quantidade = False # esta verifica a quantidade existente
 
-a = ControllerEstoque()
-a.mostrarEstoque()
-#a.alterarProduto('cenoura','R$2,0','Legumes','Verduras',20)
+        for i in x:
+            # percorrendo e verificando se existe o produto e se a quantidade em estoque é maior que a quantidade a ser vendida
+            if existe == False:
+                if i.produto.nome == nomeProduto:
+                    existe = True
+                    if i.quantidade >= quantidadeVendida:
+                        quantidade = True
+                        i.quantidade = int(i.quantidade) - int(quantidadeVendida)
+
+                        vendido = Venda(Produtos(i.produto.nome, i.produto.preco, i.produto.categoria),vendedor, comprador, quantidadeVendida)
+
+                        valorCompra = int(quantidadeVendida) * int(i.produto.preco)
+
+                        DaoVenda.salvar(vendido)
+
+            temp.append([Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), i.quantidade])
+
+            arq = open('estoque.txt', 'w')
+            arq.write("")
+
+            for i in temp:
+                with open('estoque.txt', 'a') as arq:
+                    arq.writelines(i[0].nome + "|" + i[0].preco + "|" + i[0].categoria + "|" + str(i[1]))
+                    arq.writelines('\n')
+
+            if existe == False:
+                print('O produto selecionado não existe !!')
+                return None
+
+            elif not quantidade:
+                print('A Quantidade insuficiente em estoque :( !!')
+                return None
+            else:
+                print('Venda realizada com sucesso')
+                return valorCompra
+
+
+
+#a = ControllerVenda()
+#a.cadastrarVenda('cenoura', 'Caio', 'Moacir', 2)
+#a = ControllerEstoque()
+#a.mostrarEstoque()
+#a.cadastrarProduto('couve', 'R$,50', 'Verduras', 10)
 #a.removeProduto('abacate')
-#a.cadastrarProduto('cenoura', 'R$,50', 'Legumes', 10)
+#a.alterarProduto('cenoura','cenoura','R$2,0','Verduras',20)
 #a = ControllerCategoria()
 #a.removerCategoria('Frutas')
 #a.alteraCategoria('Frios', 'Congelados')
