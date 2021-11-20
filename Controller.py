@@ -183,32 +183,60 @@ class ControllerVenda:
 
             temp.append([Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), i.quantidade])
 
-            arq = open('estoque.txt', 'w')
-            arq.write("")
+        arq = open('estoque.txt', 'w')
+        arq.write("")
 
-            for i in temp:
-                with open('estoque.txt', 'a') as arq:
-                    arq.writelines(i[0].nome + "|" + i[0].preco + "|" + i[0].categoria + "|" + str(i[1]))
-                    arq.writelines('\n')
+        for i in temp:
+            with open('estoque.txt', 'a') as arq:
+                arq.writelines(i[0].nome + "|" + i[0].preco + "|" + i[0].categoria + "|" + str(i[1]))
+                arq.writelines('\n')
 
-            if existe == False:
-                print('O produto selecionado não existe !!')
-                return None
+        if existe == False:
+            print('O produto selecionado não existe !!')
+            return None
 
-            elif not quantidade:
-                print('A Quantidade insuficiente em estoque :( !!')
-                return None
+        elif not quantidade:
+            print('A Quantidade insuficiente em estoque :( !!')
+            return None
+        else:
+            print('Venda realizada com sucesso')
+            return valorCompra
+
+    def relatorioVendas(self):
+        # ler o arquivo Vendas
+        vendas = DaoVenda.ler()
+        # variável auxiliar para listar os produtos mais vendidos
+        produtos =[]
+        for i in vendas:
+            nome = i.itensVendido.nome
+            quantidade = i.qtdoVendida
+            tamanho = list(filter(lambda x: x['produto'] == nome, produtos))
+            if len(tamanho) > 0:
+                produtos = list(map(lambda x: {'produto': nome, 'quantidade': int(x['quantidade']) + int(quantidade)}
+                                    if(x['produto'] == nome) else(x), produtos))
             else:
-                print('Venda realizada com sucesso')
-                return valorCompra
+                produtos.append({'produto': nome, 'quantidade': int(quantidade)})
+
+        ordenado = sorted(produtos, key=lambda k: k['quantidade'], reverse=True)
+        print('Estes são os produtos mais vendidos !!')
+        a = 1
+        for i in ordenado:
+            print(f'==========Produtos [{a}]==========')
+            print(f"Produto: {i['produto']}\n"
+                  f"Quantidade: {i['quantidade']}\n")
+            a += 1
+
+
+
 
 
 
 #a = ControllerVenda()
-#a.cadastrarVenda('cenoura', 'Caio', 'Moacir', 2)
+#a.relatorioVendas()
+#a.cadastrarVenda('kiwi', 'Ricardo', 'Luiz', 8)
 #a = ControllerEstoque()
 #a.mostrarEstoque()
-#a.cadastrarProduto('couve', 'R$,50', 'Verduras', 10)
+#a.cadastrarProduto('Banana', '50', 'Frutas', 20)
 #a.removeProduto('abacate')
 #a.alterarProduto('cenoura','cenoura','R$2,0','Verduras',20)
 #a = ControllerCategoria()
