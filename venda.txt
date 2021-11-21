@@ -1,0 +1,8 @@
+cenoura|2|Verduras|Caio|Moacir|2|09/11/2021
+cenoura|2|Verduras|Caio|Moacir|2|09/11/2021
+cenoura|2|Verduras|Caio|Moacir|2|20/11/2021
+cenoura|2|Verduras|Ricardo|Moacir|2|20/11/2021
+Banana|50|Frutas|Ricardo|Ramom|2|20/11/2021
+Banana|50|Frutas|Ricardo|Ramom|2|20/11/2021
+Banana|50|Frutas|Ricardo|Luiz|8|21/11/2021
+kiwi|50|Frutas|Ricardo|Luiz|8|21/11/2021

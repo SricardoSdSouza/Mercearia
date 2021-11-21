@@ -1,1 +1,5 @@
-couve|R$1,0|Verduras|15
+cenoura|2|Verduras|12
+couve|1,50|Verduras|10
+Abacate|0,50|Frutas|10
+kiwi|50|Frutas|2
+Banana|50|Frutas|8

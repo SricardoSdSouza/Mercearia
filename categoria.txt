@@ -2,3 +2,4 @@ Frios
 Verduras
 Legumes
 Congelados
+Frutas
