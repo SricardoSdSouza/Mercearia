@@ -250,10 +250,146 @@ class ControllerVenda:
 
         print(f"Total vendido: {total}")
 
+class ControllerFornecedor:
+    def cadastrarFornecedor(self, nome, cnpj, telefone, categoria):
+        x = DaoFornecedor.ler()
+        # fazendo filtro para evitar duplicação no arquivo
+        listaCnpj = list(filter(lambda x: x.cnpj == cnpj, x))
+        listaTelefone = list(filter(lambda x: x.cnpj == cnpj, x))
+        if len(listaCnpj) > 0:
+            print('CNPJ já existe !!!')
+        elif len(listaTelefone) > 0:
+            print('Telefone já existe !!!')
+        else:
+            if len(cnpj) == 14 and len(telefone) <= 11 and len(telefone) >= 10:
+                DaoFornecedor.salvar(Fornecedor(nome, cnpj, telefone, categoria))
+            else:
+                print('Digite um CNPJ ou telefone válido !!')
+
+    def alterarFornecedor(self, nomeAlterar, novoNome, novoCnpj, novoTelefone, novaCategoria):
+        x = DaoFornecedor.ler()
+
+        est = list(filter(lambda x: x.nome == nomeAlterar, x))
+        if len(est) > 0 :
+            est = list(filter(lambda x: x.cnpj == novoCnpj, x))
+            if len(est) == 0:
+                x = list(map(lambda x: Fornecedor(novoNome, novoCnpj, novoTelefone, novaCategoria) if(x.nome == nomeAlterar)else(x), x))
+            else:
+                print('CNPJ já existe !!')
+        else:
+            print('fornecedor que deseja alterar não existe !!')
+
+        with open('fornecedores.txt', 'w') as arq:
+            for i in x:
+                arq.writelines((i.nome + "|" + i.cnpj + "|" + i.telefone + "|" + str(i.categoria)))
+                arq.writelines('\n')
+            print('Fornecedor alterado com sucesso !! :)')
+
+    def removerFornecedor(self, nome):
+        x = DaoFornecedor.ler()
+        est = list(filter(lambda x: x.nome == nome, x))
+        if len(est) > 0:
+            for i in range(len(x)):
+                if x[i].nome == nome:
+                    del x[i]
+                    break
+        else:
+            print('\033[0;30;41mO fornecedor que deseja excluir não existe !! :(\033[m')
+            return None
+
+        with open('fornecedores.txt', 'w') as arq:
+            for i in x:
+                arq.writelines((i.nome + "|" + i.cnpj + "|" + i.telefone + "|" + str(i.categoria)))
+                arq.writelines('\n')
+            print('Fornecedor Removido com Sucesso !!!')
+
+    def mostrarFornecedores(self):
+        fornecedores = DaoFornecedor.ler()
+        if len(fornecedores) == 0:
+            print('Lista de fornecedores está Vazia')
 
 
-a = ControllerVenda()
-a.mostrarVenda('20/11/2021','21/11/2021')
+        print('\033[4;34m===============Fornecedores===============\033[m')
+        for i in fornecedores:
+            print(f"Categoria = {i.categoria}\n"
+                  f"Nome = {i.nome}\n"
+                  f"Telefone = {i.telefone}\n"
+                  f"Cnpj = {i.cnpj}")
+            print('*'*40)
+
+class ControllerClientes:
+    def cadastrarClientes(self, nome, telefone, cpf, email, endereco):
+        x = DaoPessoa.ler()
+        listaCpf = list(filter(lambda x: x.cpf == cpf, x))
+        if len(listaCpf) > 0:
+            print('CPF já existe !!!')
+        else:
+            if len(cpf) == 11 and len(telefone) >= 10 and len(telefone) <= 11:
+                DaoPessoa.salvar(Pessoa(nome, telefone, cpf, email, endereco))
+                print('\033[1;34mCliente Cadastrado com sucesso !! :) \033[m')
+            else:
+                print('\033[0;30;41mdigite um cpf ou telefone Válidos\033[m')
+
+    def alterarCliente(self, nomeAlterar, novoNome, novoTelefone, novoCpf, novoEmail, novoEndereco):
+        x = DaoPessoa.ler()
+
+        est = list(filter(lambda x: x.nome == nomeAlterar, x))
+        if len(est) > 0:
+            x = list(map(lambda x: Pessoa(novoNome, novoTelefone, novoCpf, novoEmail,novoEndereco)if(x.nome == nomeAlterar) else(x), x))
+        else:
+            print('\033[0;30;41mO cliente que seja alterar não existe :( \033[m')
+
+        with open('clientes.txt', 'w') as arq:
+            for i in x:
+                arq.writelines(i.nome + "|" + i.telefone + "|" + i.cpf + "|" + i.email + "|" + i.endereco)
+                arq.writelines('\n')
+            print('\033[0;34;41mCliente alterado com sucesso !! :)\033[m ')
+
+    def removerCliente(self, nome):
+        x = DaoPessoa.ler()
+        est = list(filter(lambda x: x.nome == nome, x))
+        if len(est) > 0:
+            for i in range(len(x)):
+                if x[i].nome == nome:
+                    del x[i]
+                    break
+        else:
+            print('\033[0;30;41mO cliente que seja Remover não existe :( \033[m')
+            return None
+
+        with open('clientes.txt', 'w') as arq:
+            for i in x:
+                arq.writelines(i.nome + "|" + i.telefone + "|" + i.cpf + "|" + i.email + "|" + i.endereco)
+                arq.writelines('\n')
+            print('\033[0;34;41mCliente Removido com sucesso !! :)\033[m ')
+
+    def mostrarClientes(self):
+        clientes = DaoPessoa.ler()
+
+        if len(clientes) ==  0:
+            print('\033[30;41mA Lista de Clientes esta vazia :( \033[m')
+
+        for i in clientes:
+            print(f"\033[34mNome = {i.nome}\n"
+                  f"Telefone = {i.telefone}\n"
+                  f"Endereço = {i.endereco}\n"
+                  f"Cpf = {i.cpf}\n"
+                  f"email = {i.email}\033[m")
+            print('\033[32m*\033[m'*40)
+
+
+a = ControllerClientes()
+#a.mostrarClientes()
+#a.removerCliente('Pedro')
+#a.alterarCliente('Jose Carlos','Jose Carlos I','12345678923','98789876564','jl@hotmail.com', 'rua r numero 139')
+#a.cadastrarClientes('Antonio', '17775444923', '54345678321','ytui@hotmail.com','rua r numero 139')
+#a = ControllerFornecedor()
+#a.mostrarFornecedores()
+#a.removerFornecedor('Carrefour')
+#a.alterarFornecedor('Carrefour','WallMart','44444444444444','77777777777','Frutas')
+#a.cadastrarFornecedor('Epa','34253627182934', '22222222222','Verduras')
+#a = ControllerVenda()
+#a.mostrarVenda('20/11/2021','21/11/2021')
 #a.relatorioVendas()
 #a.cadastrarVenda('kiwi', 'Ricardo', 'Luiz', 8)
 #a = ControllerEstoque()
