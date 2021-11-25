@@ -275,13 +275,16 @@ class ControllerVenda:
 class ControllerFornecedor:
     def cadastrarFornecedor(self, nome, cnpj, telefone, categoria):
         x = DaoFornecedor.ler()
+        categorias_Fornecedor = list()
+        categoria_existe = False
+        for i in x:
+            if i.cnpj == cnpj and i.categoria == categoria:
+                categoria_existe = True
         # fazendo filtro para evitar duplicação no arquivo
         listaCnpj = list(filter(lambda x: x.cnpj == cnpj, x))
         listaTelefone = list(filter(lambda x: x.cnpj == cnpj, x))
-        if len(listaCnpj) > 0:
+        if len(listaCnpj) > 0 and categoria_existe:
             print('CNPJ já existe !!!')
-        elif len(listaTelefone) > 0:
-            print('Telefone já existe !!!')
         else:
             if len(cnpj) == 14 and len(telefone) <= 11 and len(telefone) >= 10:
                 DaoFornecedor.salvar(Fornecedor(nome, cnpj, telefone, categoria))
@@ -479,6 +482,7 @@ class ControllerFuncionario:
 #a.alterarCliente('Jose Carlos','Jose Carlos I','12345678923','98789876564','jl@hotmail.com', 'rua r numero 139')
 #a.cadastrarClientes('Antonio', '17775444923', '54345678321','ytui@hotmail.com','rua r numero 139')
 #a = ControllerFornecedor()
+#a.cadastrarFornecedor()
 #a.mostrarFornecedores()
 #a.removerFornecedor('Carrefour')
 #a.alterarFornecedor('Carrefour','WallMart','44444444444444','77777777777','Frutas')
