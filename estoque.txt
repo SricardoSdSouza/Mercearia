@@ -1,5 +1,5 @@
-cenoura|2|Verduras|12
-couve|1,50|Verduras|10
-Abacate|0,50|Frutas|10
-kiwi|50|Frutas|2
-Banana|50|Frutas|8
+Couve|1,4|Verduras|20
+Banana|2,5|Frutas|20
+Yogurte|3,2|Frios|20
+Milho|1,2|Enlatados|20
+Cenoura|1,5|Legumes|20

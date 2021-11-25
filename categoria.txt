@@ -1,5 +1,5 @@
-Frios
-Verduras
-Legumes
-Congelados
 Frutas
+Verduras
+Frios
+Legumes
+Enlatados

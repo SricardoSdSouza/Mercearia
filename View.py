@@ -54,7 +54,7 @@ if __name__ == "__main__":
                           "Digite [4] para Mostrar o Estoque\n"
                           "Digite [5] para Sair\n"))
                 if decidir == 1:
-                       nome = input('Informe o Nome do Produrto: \n')
+                       nome = input('Informe o Nome do Produto: \n')
                        preco = input('Iforme o preço do Produto: \n')
                        categoria = input('Iforme a Categoria do Produto: \n')
                        quantidade = input('Iforme a Quantidade do Produto: \n')
@@ -67,8 +67,8 @@ if __name__ == "__main__":
                         cat.removeProduto(produto)
 
                 elif decidir == 3:
-                        nomeAlterar = input('Informe o Nome do Produrto que deseja Alterar: \n')
-                        nome = input('Informe o Novo nome do Produrto: \n')
+                        nomeAlterar = input('Informe o Nome do Produto que deseja Alterar: \n')
+                        nome = input('Informe o Novo nome do Produto: \n')
                         preco = input('Iforme o Novo preço do Produto: \n')
                         categoria = input('Iforme a Nova Categoria do Produto: \n')
                         quantidade = input('Iforme a Nova Quantidade do Produto: \n')
@@ -168,8 +168,8 @@ if __name__ == "__main__":
                 if decidir == 1:
                     clt = input('Informe o nº CLT do Funcionario: \n')
                     nome = input('Informe o Nome do Funcionario: \n')
-                    telefone = inpu('Informe o Telefone do Funcionario: \n')
-                    cpf = input('Informe o CPF do Funcionario: ')
+                    telefone = input('Informe o Telefone do Funcionario: \n')
+                    cpf = input('Informe o CPF do Funcionario: \n')
                     email = input('Informe o Email do Funcionario: \n')
                     endereco = input('Informe o Endereço do Funcionario: \n')
 
