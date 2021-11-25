@@ -41,7 +41,7 @@ class Pessoa:
         self.email = email
         self.endereco = endereco
         
-def Funcionario(Pessoa):
+class Funcionario(Pessoa):
     def __init__(self, clt, nome, telefone, cpf, email, endereco):
         self.clt = clt
         # herda tudo que Pessoas + as informações de clt que são individuais
